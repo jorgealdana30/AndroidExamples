@@ -47,8 +47,8 @@ class ItemsActivity : ComponentActivity(), OnClickListener {
         onBackPressedDispatcher.onBackPressed()
     }
 
-    override fun addItemToCart() {
-        EventBus.getDefault().post(CartEvent("Zanahoria"))
+    override fun addItemToCart(item: String) {
+        EventBus.getDefault().post(CartEvent(item))
     }
 }
 
@@ -56,23 +56,23 @@ class ItemsActivity : ComponentActivity(), OnClickListener {
 fun ShowItems(listener: OnClickListener, modifier: Modifier = Modifier) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Item 1", textAlign = TextAlign.Center)
+            Text(text = "Yuca", textAlign = TextAlign.Center)
             Spacer(modifier = modifier.width(Dp(30f)))
-            Button(onClick = {listener.addItemToCart()}) {
+            Button(onClick = {listener.addItemToCart("Yuca")}) {
                 Text(text = "Add Item to Cart")
             }
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Item 2", textAlign = TextAlign.Center)
+            Text(text = "Ñame", textAlign = TextAlign.Center)
             Spacer(modifier = modifier.width(Dp(30f)))
-            Button(onClick = {listener.addItemToCart()}) {
+            Button(onClick = {listener.addItemToCart("ñame")}) {
                 Text(text = "Add Item to Cart")
             }
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Item 3", textAlign = TextAlign.Center)
+            Text(text = "Papa", textAlign = TextAlign.Center)
             Spacer(modifier = modifier.width(Dp(30f)))
-            Button(onClick = {listener.addItemToCart()}) {
+            Button(onClick = {listener.addItemToCart("papa")}) {
                 Text(text = "Add Item to Cart")
             }
         }
@@ -85,5 +85,5 @@ fun ShowItems(listener: OnClickListener, modifier: Modifier = Modifier) {
 
 interface OnClickListener {
     fun onBack()
-    fun addItemToCart()
+    fun addItemToCart(item: String)
 }

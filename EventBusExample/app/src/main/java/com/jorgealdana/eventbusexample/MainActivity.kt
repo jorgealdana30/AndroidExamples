@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
     fun onCartItemAdd(cartEvent: CartEvent) {
         cartEventList.add(cartEvent)
         viewModel.setCount(cartEventList.size)
-        Toast.makeText(this, "Item added to cart.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "${cartEvent.cartItem} added to cart.", Toast.LENGTH_SHORT).show()
     }
 
     private fun startItemsActivity() {
