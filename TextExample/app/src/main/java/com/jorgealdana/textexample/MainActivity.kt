@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Column{
+                    Column {
                         TextSize(text = "Text with size", size = 20.sp)
                         SpacerHeight(height = 20f)
                         TextColor()
@@ -55,43 +55,68 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SpacerHeight(height: Float){
+fun SpacerHeight(height: Float) {
     Spacer(Modifier.height(Dp(height)))
 }
 
 @Composable
-fun TextSize(text: String, size: TextUnit){
+fun TextSize(text: String, size: TextUnit) {
     Text(text = text, fontSize = size)
 }
 
 @Composable
-fun TextColor(){
+fun TextColor() {
     Text(text = "Text with Color", color = Color.Red)
 }
 
 @Composable
-fun TextBold(){
+fun TextBold() {
     Text(text = "Text with Weight", fontWeight = FontWeight.ExtraBold)
 }
 
 @Composable
-fun TextItalic(){
+fun TextItalic() {
     Text(text = "Text with Italic style", fontStyle = FontStyle.Italic)
 }
 
 @Composable
-fun TextMaxNumberLine(){
+fun TextMaxNumberLine() {
     Text(text = "Hello ".repeat(50), maxLines = 2)
 }
 
 @Composable
-fun TextWithOverflow(){
+fun TextWithOverflow() {
     Text(text = "Overflow".repeat(50), maxLines = 1, overflow = TextOverflow.Ellipsis)
 }
 
 @Composable
-fun TextWithSelection(){
+fun TextWithSelection() {
     SelectionContainer {
         Text(text = "Try to select me!!")
+    }
+}
+
+@Preview
+@Composable
+fun Review() {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column {
+            TextSize(text = "Text with size", size = 20.sp)
+            SpacerHeight(height = 20f)
+            TextColor()
+            SpacerHeight(height = 20f)
+            TextBold()
+            SpacerHeight(height = 20f)
+            TextItalic()
+            SpacerHeight(height = 20f)
+            TextMaxNumberLine()
+            SpacerHeight(height = 20f)
+            TextWithOverflow()
+            SpacerHeight(height = 20f)
+            TextWithSelection()
+        }
     }
 }
