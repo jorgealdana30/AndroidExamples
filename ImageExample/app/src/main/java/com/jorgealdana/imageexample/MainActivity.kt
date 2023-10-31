@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -86,6 +87,27 @@ fun ImageWithBackgroundColor() {
     )
 }
 
+@Composable
+fun ImageWithTint() {
+    Image(
+        painter = painterResource(id = R.drawable.burro),
+        colorFilter = ColorFilter.tint(color = Color.Red),
+        contentDescription = "Burro image",
+        modifier = Modifier.size(200.dp)
+    )
+}
+
+@Composable
+fun ImageWithContentScale() {
+    Image(
+        painter = painterResource(id = R.drawable.burro), contentDescription = "Burro image",
+        contentScale = ContentScale.FillWidth,
+        modifier = Modifier
+            .size(100.dp)
+            .background(color = Color.Red)
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 fun Preview() {
@@ -98,7 +120,9 @@ fun Preview() {
                 SimpleImage()
                 CircleImage()
                 RoundCornerImage()
-                ImageWithBackgroundColor()
+                //ImageWithBackgroundColor()
+                //ImageWithTint()
+                ImageWithContentScale()
             }
         }
     }
