@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,13 +15,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -52,13 +58,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ListListScopeSample()
+                    SetList()
                 }
             }
         }
     }
 
-    private fun getFruits(){
+    private fun getFruits() {
         fruitsList.add(FruitModel("Apple", R.drawable.apple))
         fruitsList.add(FruitModel("Orange", R.drawable.orange))
         fruitsList.add(FruitModel("Banana", R.drawable.banana))
@@ -101,6 +107,7 @@ class MainActivity : ComponentActivity() {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
+                .clip(RoundedCornerShape(20.dp))
                 .wrapContentHeight()
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.primary)
@@ -110,7 +117,8 @@ class MainActivity : ComponentActivity() {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(100.dp)
-                    .padding(5.dp)
+                    .padding(10.dp)
+                    .clip(CircleShape)
             )
             Text(
                 text = model.name,
@@ -118,6 +126,21 @@ class MainActivity : ComponentActivity() {
                 fontWeight = FontWeight.SemiBold,
                 color = Color.White
             )
+        }
+    }
+
+    @Composable
+    fun SetList() {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
+            items(fruitsList) { fruit ->
+                ListRow(model = fruit)
+            }
         }
     }
 
@@ -130,7 +153,7 @@ class MainActivity : ComponentActivity() {
                 color = MaterialTheme.colorScheme.background
             ) {
                 //ListListScopeSample()
-                SimpleCountryList()
+                SetList()
             }
         }
     }
