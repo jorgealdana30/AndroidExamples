@@ -53,6 +53,7 @@ import com.example.myapplication.classes.MenuItem
 import com.example.myapplication.classes.MenuItem.*
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.views.AccountView
+import com.example.myapplication.views.GalleryView
 import com.example.myapplication.views.HomeView
 import com.example.myapplication.views.ListView
 
@@ -84,6 +85,9 @@ fun NavHostExample(navController: NavHostController) {
         }
         composable(AccountItem.ruta) {
             AccountView()
+        }
+        composable(GalleryItem.ruta){
+            GalleryView()
         }
     }
 }
@@ -138,10 +142,10 @@ fun currentRoute(navController: NavHostController): String? {
 @Composable
 fun ScaffoldSample() {
     val navController = rememberNavController()
-    val scope = rememberCoroutineScope()
-    val navigationItem = listOf<MenuItem>(
+    val navigationItem = listOf(
         HomeItem,
         ListItem,
+        GalleryItem,
         AccountItem
     )
     Scaffold(
@@ -196,9 +200,7 @@ fun ScaffoldSample() {
                                 Text(text = item.name)
                             }, selected = currentRoute == item.ruta,
                             onClick = {
-                                navController.navigate(item.ruta) {
-                                    popUpTo(item.ruta)
-                                }
+                                navController.navigate(item.ruta)
                             }, icon = {
                                 Icon(
                                     painter = painterResource(id = item.icon),
@@ -210,8 +212,10 @@ fun ScaffoldSample() {
             }
         },
     ) { innerPadding ->
-        Column(Modifier.consumeWindowInsets(innerPadding)) {
-            NavHostExample(navController = navController)
+        LazyColumn(modifier = Modifier.consumeWindowInsets(innerPadding), contentPadding = innerPadding) {
+            item {
+                NavHostExample(navController = navController)
+            }
         }
     }
 }

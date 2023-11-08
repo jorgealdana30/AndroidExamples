@@ -18,3 +18,8 @@ fun ListView() {
 fun AccountView() {
     Text(text = "Account", style = MaterialTheme.typography.headlineMedium)
 }
+
+@Composable
+fun GalleryView(){
+    Text(text = "Gallery", style = MaterialTheme.typography.headlineMedium)
+}
