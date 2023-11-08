@@ -5,42 +5,56 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.classes.MenuItem
+import com.example.myapplication.classes.MenuItem.*
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.views.AccountView
+import com.example.myapplication.views.HomeView
+import com.example.myapplication.views.ListView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,18 +73,94 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun NavHostExample(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = HomeItem.ruta) {
+        composable(HomeItem.ruta) {
+            HomeView()
+        }
+        composable(ListItem.ruta) {
+            ListView()
+        }
+        composable(AccountItem.ruta) {
+            AccountView()
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun TopAppBarExample() {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Back", color = Color.White) },
+                colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Outlined.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
+                    }
+                }
+            )
+        }
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .consumeWindowInsets(it)
+                .background(MaterialTheme.colorScheme.secondary)
+                .fillMaxSize()
+        ) {
+            Text(
+                text = "Content of the page",
+                style = TextStyle(
+                    color = Color.White,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun currentRoute(navController: NavHostController): String? {
+    val entrant by navController.currentBackStackEntryAsState()
+    return entrant?.destination?.route
+}
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ScaffoldSample() {
+    val navController = rememberNavController()
+    val scope = rememberCoroutineScope()
+    val navigationItem = listOf<MenuItem>(
+        HomeItem,
+        ListItem,
+        AccountItem
+    )
     Scaffold(
         topBar = {
             TopAppBar(
                 actions = {
                     IconButton(onClick = { }) {
-                        Icon(imageVector = Icons.Outlined.Favorite, contentDescription = null, tint = Color.White)
+                        Icon(
+                            imageVector = Icons.Outlined.Favorite,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
                     }
                     IconButton(onClick = { }) {
-                        Icon(imageVector = Icons.Outlined.ShoppingCart, contentDescription = null, tint = Color.White)
+                        Icon(
+                            imageVector = Icons.Outlined.ShoppingCart,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
@@ -78,7 +168,11 @@ fun ScaffoldSample() {
                 navigationIcon = {
                     IconButton(
                         onClick = {}) {
-                        Icon(imageVector = Icons.Outlined.Menu, contentDescription = "Menu", tint = Color.White)
+                        Icon(
+                            imageVector = Icons.Outlined.Menu,
+                            contentDescription = "Menu",
+                            tint = Color.White
+                        )
                     }
                 })
         },
@@ -92,24 +186,39 @@ fun ScaffoldSample() {
             }
         },
         bottomBar = {
-            BottomAppBar(containerColor = MaterialTheme.colorScheme.primary) {
-                Text(text = "Bottom App Bar")
+            BottomAppBar {
+                NavigationBar {
+                    val currentRoute = currentRoute(navController = navController)
+                    navigationItem.forEach { item ->
+                        NavigationBarItem(
+                            alwaysShowLabel = false,
+                            label = {
+                                Text(text = item.name)
+                            }, selected = currentRoute == item.ruta,
+                            onClick = {
+                                navController.navigate(item.ruta) {
+                                    popUpTo(item.ruta)
+                                }
+                            }, icon = {
+                                Icon(
+                                    painter = painterResource(id = item.icon),
+                                    contentDescription = item.name
+                                )
+                            })
+                    }
+                }
             }
         },
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier.consumeWindowInsets(innerPadding),
-            contentPadding = innerPadding
-        ) {
-            item {
-                Text(text = "Hola Mundo")
-            }
+        Column(Modifier.consumeWindowInsets(innerPadding)) {
+            NavHostExample(navController = navController)
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-
+fun Preview() {
+    ScaffoldSample()
+    //TopAppBarExample()
 }
