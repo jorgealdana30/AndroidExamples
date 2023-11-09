@@ -1,19 +1,10 @@
-package com.jorgealdana.themesexample.ui.theme
+package com.example.cardexample.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.jorgealdana.themesexample.R
-
-val AgbalumoFont: FontFamily = FontFamily(
-    Font(R.font.agbalumo_regular, FontWeight.Bold),
-    Font(R.font.agbalumo_regular, FontWeight.Normal)
-)
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -23,7 +14,8 @@ val Typography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
-    ),
+    )
+    /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -38,25 +30,5 @@ val Typography = Typography(
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     )
+    */
 )
-
-val MyTypography = Typography(
-    bodyMedium = TextStyle(
-        fontFamily = AgbalumoFont,
-        fontWeight = FontWeight.ExtraBold,
-        fontSize = 32.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.8.sp,
-        color = Color.DarkGray
-    )
-)
-
-val Typography.customTitle: TextStyle
-    @Composable
-    get() {
-        return TextStyle(
-            fontFamily = FontFamily.Monospace,
-            fontWeight = FontWeight.Bold,
-            fontSize = 30.sp
-        )
-    }

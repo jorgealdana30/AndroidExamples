@@ -41,7 +41,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             modifier = modifier
         )
 
-        Text(text = "Title custom", style = Typography.customTitle)
+        Text(text = "Title custom", style = MaterialTheme.typography.bodyMedium)
     }
 }
 
